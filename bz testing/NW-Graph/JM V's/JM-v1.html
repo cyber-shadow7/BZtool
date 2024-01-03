@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Net Worth Data Updater</title>
+  <style>
+    /* Basic styles for the table */
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Net Worth Data</h1>
+  <table id="dataTable">
+    <!-- This table will display the existing data from the file -->
+    <!-- Use JavaScript to populate this table -->
+  </table>
+  <button onclick="addRow()">Add Row</button>
+  <hr>
+  <h2>Output (for const netWorthData):</h2>
+  <pre id="output">
+    <!-- This area will display the formatted output for const netWorthData -->
+  </pre>
+
+  <script>
+    // Function to update the displayed output
+    function updateOutput() {
+      const table = document.getElementById('dataTable');
+      const rows = table.querySelectorAll('tr');
+      let output = 'const netWorthData = {\n';
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return;
+
+        const username = cells[0].textContent.trim();
+        const values = Array.from(cells).slice(1).map(cell => cell.textContent.trim()).join(', ');
+        output += `  ${username}: [${values}],\n`;
+      });
+
+      output += '};';
+      document.getElementById('output').textContent = output;
+    }
+
+    // Function to add a new row to the table
+    function addRow() {
+      const table = document.getElementById('dataTable');
+      const row = table.insertRow(-1); // Append row at the end
+      const cell1 = row.insertCell(0);
+      const cell2 = row.insertCell(1);
+      const cell3 = row.insertCell(2);
+      // Add more cells as needed for your columns
+
+      cell1.contentEditable = true; // Allow editing the cells
+      cell2.contentEditable = true;
+      cell3.contentEditable = true;
+      // Make more cells editable if required
+
+      cell1.textContent = 'NewUser'; // Initial text for the cells
+      cell2.textContent = '0';
+      cell3.textContent = '0';
+      // Set initial values for more cells
+
+      updateOutput(); // Update the output when a new row is added
+    }
+
+    // Load existing data when the page loads
+    window.onload = function() {
+      // Use a server-side language (like Node.js) to read data from a text file
+      // For demonstration purposes, you can manually set up existing data here
+      // Then, use JavaScript to populate the table with the data
+      // Example:
+      const existingData = {
+        apollo800813: [321300374, 307648495, 342430507],
+        thecooliguy791: [1483624, 1028020, 882939],
+        // Add more users and their data here...
+      };
+
+      const table = document.getElementById('dataTable');
+      for (const user in existingData) {
+        const row = table.insertRow(-1);
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        // Add more cells as needed for your columns
+
+        cell1.textContent = user;
+        const values = existingData[user];
+        cell2.textContent = values[0];
+        cell3.textContent = values[1];
+        // Set values for more cells
+
+        updateOutput(); // Update the output when existing data is loaded
+      }
+    };
+  </script>
+</body>
+</html>

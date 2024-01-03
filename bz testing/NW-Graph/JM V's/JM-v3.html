@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Net Worth Data Updater</title>
+  <style>
+    /* Basic styles for the table */
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Net Worth Data</h1>
+  <table id="dataTable">
+    <!-- This table will display the existing data from the file -->
+    <!-- Use JavaScript to populate this table -->
+  </table>
+  <button onclick="addRowBelow()">Add Row Below</button>
+  <button onclick="addColumnSide()">Add Column Side</button>
+  <hr>
+  <h2>Output (for const netWorthData):</h2>
+  <pre id="output">
+    <!-- This area will display the formatted output for const netWorthData -->
+  </pre>
+
+  <script>
+    // Function to update the displayed output
+    function updateOutput() {
+      const table = document.getElementById('dataTable');
+      const rows = table.querySelectorAll('tr');
+      let output = 'const netWorthData = {\n';
+
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length === 0) return;
+
+        const username = cells[0].textContent.trim();
+        const values = Array.from(cells).slice(1).map(cell => cell.textContent.trim()).join(', ');
+        output += `  ${username}: [${values}],\n`;
+      });
+
+      output += '};';
+      document.getElementById('output').textContent = output;
+    }
+
+    // Function to add a new row below the last row
+    function addRowBelow() {
+      const table = document.getElementById('dataTable');
+      const row = table.insertRow(-1); // Append row at the end
+      const cellsCount = table.rows[0].cells.length; // Get number of cells in the header row
+
+      for (let i = 0; i < cellsCount; i++) {
+        const cell = row.insertCell(i);
+        cell.contentEditable = true;
+        cell.textContent = '0'; // Initial text for the new cell
+      }
+
+      updateOutput(); // Update the output when a new row is added
+    }
+
+    // Function to add a new column to the right of the last column
+    function addColumnSide() {
+      const table = document.getElementById('dataTable');
+      const rows = table.rows;
+      const cellsCount = rows[0].cells.length; // Get the current number of cells
+
+      for (let i = 0; i < rows.length; i++) {
+        const cell = rows[i].insertCell(cellsCount);
+        cell.contentEditable = true;
+        cell.textContent = '0'; // Initial text for the new cell
+      }
+
+      updateOutput(); // Update the output when a new column is added
+    }
+
+    // Load existing data when the page loads
+    window.onload = function() {
+      // Use a server-side language (like Node.js) to read data from a text file
+      // For demonstration purposes, you can manually set up existing data here
+      // Then, use JavaScript to populate the table with the data
+      // Example:
+      const existingData = {
+        apollo800813: [321300374, 307648495, 342430507],
+        thecooliguy791: [1483624, 1028020, 882939],
+        // Add more users and their data here...
+      };
+
+      const table = document.getElementById('dataTable');
+      for (const user in existingData) {
+        const row = table.insertRow(-1);
+        const cell = row.insertCell(-1);
+        cell.textContent = user;
+        cell.contentEditable = true;
+
+        const values = existingData[user];
+        values.forEach(value => {
+          const dataCell = row.insertCell(-1);
+          dataCell.textContent = value;
+          dataCell.contentEditable = true;
+        });
+      }
+
+      // Update the output when existing data is loaded
+      updateOutput();
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dark-Web</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 2%;
+        background-color: black;
+        color: aqua;
+        margin: 0;
+      }
+      h1 {
+        margin-bottom: 2%;
+      }
+      .numbers-container {
+        display: flex;
+        flex-wrap: wrap; /* Allow items to wrap */
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 1%;
+        margin-bottom: 2%;
+      }
+      input[type="number"] {
+        color: aqua;
+        font-size: 16px;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 50px; /* Rounded edges */
+        border: 1px solid aqua;
+        outline: none; /* Remove the default focus outline */
+        background-color: black; /* Set background color to black */
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: aqua; /* Change the border color on focus */
+      }
+
+      label[placeholder]:before {
+        content: attr(placeholder);
+        color: aqua;
+        transition: transform 0.3s ease-in-out, color 0.2s ease-in-out;
+        transform-origin: 15% 100%;
+        display: block;
+        margin-top: -36px;
+        margin-left: 10%;
+        font-size: 14px;
+        pointer-events: none; /* Allow clicking through the label */
+        z-index: -1; /* Place label behind the input */
+      }
+      /* Hide number input arrows */
+      .number-box::-webkit-inner-spin-button,
+      .number-box::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input:focus + label[placeholder]:before,
+      input:valid + label[placeholder]:before {
+        transform: scale(0.9) translateY(-21px);
+        color: orange;
+      }
+      .input-group {
+        display: flex;
+        align-items: center;
+        margin: 0.5% 0;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="numbers-container">
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+      <form class="input-group">
+        <input type="number" required class="number-box" />
+        <label placeholder="Input"></label>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Net Worth Data Updater</title>
+    <style>
+      /* Basic styles for the table */
+      body {
+        background-color: black; /* Black background for the body */
+        color: #4da6ff; /* Light blue text color */
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        background-color: black; /* Black background for the table */
+        color: #4da6ff; /* Light blue text color for the table */
+      }
+
+      th,
+      td {
+        border: 1px solid #4da6ff; /* Light blue borders for cells */
+        padding: 8px;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .button-group > div {
+        display: flex;
+      }
+
+      .button-group button {
+        margin-right: 5px;
+        background-color: #4da6ff; /* Light blue background for buttons */
+        color: black; /* Black text color for buttons */
+        border: none;
+        cursor: pointer;
+      }
+
+      .button-group button:hover {
+        background-color: #75bbff; /* Lighter blue background on hover */
+      }
+
+      #pasteArea {
+        /* Remove max-width property */
+        min-height: auto;
+        border: 1px solid #4da6ff;
+        padding: 5px;
+        background-color: black;
+        color: #4da6ff;
+        display: inline-block; /* Set to inline-block */
+
+        /* Fixing text size and overflow */
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      h1,
+      h2 {
+        color: #4da6ff; /* Light blue text color for headers */
+      }
+
+      /* Adjustments for Save Data button and bar */
+      button#saveButton {
+        background-color: #4da6ff; /* Light blue background for Save Data button */
+        color: black; /* Black text color for Save Data button */
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        margin: 0; /* Remove default margin */
+      }
+
+      hr {
+        border: none; /* Remove border */
+        height: 1px; /* Set height */
+        background-color: #4da6ff; /* Light blue color for the line */
+        margin: 10px 0; /* Adjust margin */
+      }
+    </style>
+  </head>
+  <body style="background-color: black; color: #4da6ff">
+    <h1>Net Worth Data</h1>
+    <div class="button-group">
+      <div>
+        <button onclick="addRowBelow()">+ Row</button>
+        <button onclick="removeRowBelow()">- Row</button>
+      </div>
+      <div class="column-buttons">
+        <button onclick="addColumnSide()">+ Column</button>
+        <button onclick="removeColumnSide()">- Column</button>
+      </div>
+    </div>
+    
+    <div id="pasteArea" contenteditable="true">Paste your data here...</div>
+    <table id="dataTable">
+      <!-- This table will display the existing data from the file -->
+    </table>
+    
+    <button id="saveButton" onclick="saveDataToLocalStorage()">
+      Save Data
+    </button>
+    <hr />
+    <h2>Output (for const netWorthData):</h2>
+    <pre id="output">
+      <!-- This area will display the formatted output for const netWorthData -->
+    </pre>
+
+    <script>
+      // Function to update the displayed output
+      function updateOutput() {
+        const table = document.getElementById("dataTable");
+        const rows = table.rows;
+        let output = "const netWorthData = {\n";
+
+        for (let i = 0; i < rows.length; i++) {
+          const cells = rows[i].cells;
+          if (cells.length === 0) continue;
+
+          const username = cells[0].textContent.trim();
+          const values = Array.from(cells)
+            .slice(1)
+            .map((cell) => {
+              const value = cell.textContent.trim().replace(/[,$]/g, ""); // Remove commas and dollar signs
+              return isNaN(value) ? `'${value}'` : value;
+            })
+            .join(", ");
+
+          output += `  ${username}: [${values}],\n`;
+        }
+
+        output += "};";
+        document.getElementById("output").textContent = output;
+      }
+
+      // Function to add a new row below the last row
+      function addRowBelow() {
+        const table = document.getElementById("dataTable");
+        const row = table.insertRow(-1);
+        const cellsCount = table.rows[0].cells.length;
+
+        for (let i = 0; i < cellsCount; i++) {
+          const cell = row.insertCell(i);
+          cell.contentEditable = true;
+          cell.textContent = "0";
+        }
+
+        updateOutput();
+      }
+
+      // Function to add a new column to the right of the last column
+      function addColumnSide() {
+        const table = document.getElementById("dataTable");
+        const rows = table.rows;
+
+        for (let i = 0; i < rows.length; i++) {
+          const cell = rows[i].insertCell(-1);
+          cell.contentEditable = true;
+          cell.textContent = "0";
+        }
+
+        updateOutput();
+      }
+
+      // Function to delete the last row from the table
+      function removeRowBelow() {
+        const table = document.getElementById("dataTable");
+        if (table.rows.length > 1) {
+          table.deleteRow(-1); // Delete the last row except if it's the only row
+          updateOutput(); // Update the output when a row is deleted
+        }
+      }
+
+      // Function to remove the last column from the table
+      function removeColumnSide() {
+        const table = document.getElementById("dataTable");
+        const rows = table.rows;
+
+        if (rows.length > 0) {
+          for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].cells;
+            if (cells.length > 1) {
+              rows[i].deleteCell(-1); // Delete the last cell except if it's the only cell in the row
+            }
+          }
+          updateOutput(); // Update the output when a column is removed
+        }
+      }
+
+      // Function to paste data into the table
+      document
+        .getElementById("pasteArea")
+        .addEventListener("paste", (event) => {
+          event.preventDefault();
+          const clipboardData = event.clipboardData || window.clipboardData;
+          const pastedData = clipboardData.getData("text/plain");
+          const table = document.getElementById("dataTable");
+          const rows = pastedData.split("\n");
+
+          const maxRows = rows.length;
+          const maxColumns = Math.max(
+            ...rows.map((row) => row.split("\t").length)
+          );
+
+          for (let i = 0; i < table.rows.length; i++) {
+            if (i >= maxRows) {
+              table.deleteRow(i--);
+              continue;
+            }
+            const columns = rows[i].split("\t");
+            for (let j = 0; j < table.rows[i].cells.length; j++) {
+              if (j >= maxColumns) {
+                table.rows[i].deleteCell(j--);
+                continue;
+              }
+              const cell = table.rows[i].cells[j];
+              cell.textContent = columns[j] || "";
+              cell.contentEditable = true;
+            }
+            if (table.rows[i].cells.length > maxColumns) {
+              while (table.rows[i].cells.length > maxColumns) {
+                table.rows[i].deleteCell(maxColumns);
+              }
+            }
+          }
+
+          for (let i = table.rows.length; i < maxRows; i++) {
+            const row = table.insertRow(-1);
+            const columns = rows[i].split("\t");
+            for (let j = 0; j < maxColumns; j++) {
+              const cell = row.insertCell(-1);
+              cell.textContent = columns[j] || "";
+              cell.contentEditable = true;
+            }
+          }
+
+          updateOutput(); // Update the output after pasting data
+        });
+
+      // Function to save data in local storage
+      function saveDataToLocalStorage() {
+        const table = document.getElementById("dataTable");
+        const data = [];
+
+        for (let i = 0; i < table.rows.length; i++) {
+          const rowData = [];
+          const cells = table.rows[i].cells;
+
+          for (let j = 0; j < cells.length; j++) {
+            const value = cells[j].textContent.trim();
+            rowData.push(value);
+          }
+
+          data.push(rowData);
+        }
+
+        localStorage.setItem("netWorthData", JSON.stringify(data));
+        alert("Data saved successfully!");
+      }
+
+      // Load existing data when the page loads
+      window.onload = function () {
+        const table = document.getElementById("dataTable");
+        const existingData = JSON.parse(localStorage.getItem("netWorthData"));
+
+        if (existingData && existingData.length > 0) {
+          for (let i = 0; i < existingData.length; i++) {
+            const row = table.insertRow(-1);
+            const rowData = existingData[i];
+
+            for (let j = 0; j < rowData.length; j++) {
+              const cell = row.insertCell(j);
+              cell.contentEditable = true;
+              cell.textContent = rowData[j];
+            }
+          }
+        } else {
+          // Add a default row with editable cells if no existing data found
+          addRowBelow();
+        }
+
+        updateOutput(); // Update the output when existing data is loaded
+      };
+    </script>
+  </body>
+</html>

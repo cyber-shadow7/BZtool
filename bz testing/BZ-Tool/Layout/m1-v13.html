@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark-Web</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 2%;
+      background-color: black;
+      color: #00aaff;
+      margin: 0;
+    }
+  
+    h1 {
+      margin-bottom: 2%;
+    }
+  
+    .numbers-container {
+      display: flex;
+      justify-content: center; /* Center align items */
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 1%;
+      margin-bottom: 2%;
+    }
+  
+    .number-box {
+      flex: 1;
+      border: 1px solid #00aaff;
+      padding: 1%;
+      margin: 0 1%;
+      background-color: rgba(0, 170, 255, 0.2);
+    }
+  
+    .chart-flex-container {
+      display: flex;
+      justify-content: center;
+      margin: 2%;
+    }
+  
+    .chart-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 2%;
+    }
+  
+    .chart {
+      border: 1px solid #00aaff;
+      padding: 1%;
+      width: 45vw;
+      box-sizing: border-box;
+      background-color: rgba(0, 170, 255, 0.2);
+      color: #00aaff;
+    }
+  
+    @media (max-width: 768px) {
+      .chart-flex-container {
+        display: block;
+        width: 95%;
+        margin: 0 auto;
+      }
+  
+      .chart-container {
+        grid-template-columns: 1fr;
+      }
+  
+      .chart {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Item Name Here</h1>
+  <div class="numbers-container">
+    <div class="number-box">Instant Buy Price: $100</div>
+    <div class="number-box">Instant Sell Price: $95</div>
+    <div class="number-box">Sell Offer Price: $98</div>
+    <div class="number-box">Buy Order Price: $102</div>
+  </div>
+  
+  <!-- New flex box with number inputs -->
+  <div class="numbers-container">
+    <input type="number" class="number-box" placeholder="Input 1">
+    <input type="number" class="number-box" placeholder="Input 2">
+    <input type="number" class="number-box" placeholder="Input 3">
+    <input type="number" class="number-box" placeholder="Input 4">
+    <input type="number" class="number-box" placeholder="Input 5">
+    <input type="number" class="number-box" placeholder="Input 6">
+  </div>
+  
+  <div class="chart-flex-container">
+    <div class="chart-container">
+      <div class="chart"><canvas id="chart1"></canvas></div>
+      <div class="chart"><canvas id="chart2"></canvas></div>
+      <div class="chart"><canvas id="chart3"></canvas></div>
+      <div class="chart"><canvas id="chart4"></canvas></div>
+    </div>
+  </div>
+  
+
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Item Name Here</h1>
+  <div class="numbers-container">
+    <div class="number-box">Instant Buy Price: $100</div>
+    <div class="number-box">Instant Sell Price: $95</div>
+    <div class="number-box">Sell Offer Price: $98</div>
+    <div class="number-box">Buy Order Price: $102</div>
+  </div>
+  <div class="chart-flex-container">
+    <div class="chart-container">
+      <div class="chart"><canvas id="chart1"></canvas></div>
+      <div class="chart"><canvas id="chart2"></canvas></div>
+      <div class="chart"><canvas id="chart3"></canvas></div>
+      <div class="chart"><canvas id="chart4"></canvas></div>
+    </div>
+  </div>
+  <script>
+    const data1 = {
+      labels: ["January", "February", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Dataset 1 - Line 1",
+          data: [10, 20, 15, 25, 30],
+          borderColor: "rgba(0, 170, 255, 1)",
+          backgroundColor: "rgba(0, 170, 255, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+        {
+          label: "Dataset 1 - Line 2",
+          data: [5, 10, 8, 15, 20],
+          borderColor: "rgba(255, 138, 11, 1)",
+          backgroundColor: "rgba(255, 138, 11, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+      ],
+    };
+
+    const data2 = {
+      labels: ["January", "February", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Dataset 2 - Line 1",
+          data: [5, 15, 10, 30, 20],
+          borderColor: "rgba(0, 170, 255, 1)",
+          backgroundColor: "rgba(0, 170, 255, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+        {
+          label: "Dataset 2 - Line 2",
+          data: [10, 8, 12, 18, 25],
+          borderColor: "rgba(255, 138, 11, 1)",
+          backgroundColor: "rgba(255, 138, 11, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+      ],
+    };
+
+    const data3 = {
+      labels: ["January", "February", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Dataset 3 - Line 1",
+          data: [5, 15, 10, 30, 20],
+          borderColor: "rgba(0, 170, 255, 1)",
+          backgroundColor: "rgba(0, 170, 255, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+        {
+          label: "Dataset 3 - Line 2",
+          data: [10, 8, 12, 18, 25],
+          borderColor: "rgba(255, 138, 11, 1)",
+          backgroundColor: "rgba(255, 138, 11, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+      ],
+    };
+
+    const data4 = {
+      labels: ["January", "February", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Dataset 4 - Line 1",
+          data: [10, 20, 15, 25, 30],
+          borderColor: "rgba(0, 170, 255, 1)",
+          backgroundColor: "rgba(0, 170, 255, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+        {
+          label: "Dataset 4 - Line 2",
+          data: [5, 10, 8, 15, 20],
+          borderColor: "rgba(255, 138, 11, 1)",
+          backgroundColor: "rgba(255, 138, 11, 0.2)", // Set custom fill color
+          fill: true,
+          pointStyle: "line", // Change point style to rect (no points)
+          borderCapStyle: "round", // Make the line rounded for a smooth appearance
+        },
+      ],
+    };
+    const options = {
+plugins: {
+  tooltip: {
+    mode: "index",
+    intersect: false,
+    backgroundColor: "rgba(0, 170, 255, 0.8)", // Set tooltip background color
+    titleColor: "black", // Set tooltip title text color
+    bodyColor: "black", // Set tooltip body text color
+    borderColor: "#00aaff", // Set tooltip border color
+    borderWidth: 1,
+  },
+  interaction: {
+    intersect: false,
+  },
+},
+scales: {
+  x: {
+    display: true,
+    ticks: {
+      color: "#00aaff", // Set x-axis label color
+    },
+  },
+  y: {
+    display: true,
+    ticks: {
+      color: "#00aaff", // Set y-axis label color
+    },
+  },
+},
+elements: {
+  point: {
+    radius: 0,
+  },
+},
+maintainAspectRatio: true,
+backgroundColor: "black",
+color: "#00aaff",
+};
+
+window.onload = function () {
+new Chart(document.getElementById("chart1").getContext("2d"), {
+  type: "line",
+  data: data1,
+  options: options,
+});
+
+new Chart(document.getElementById("chart2").getContext("2d"), {
+  type: "line",
+  data: data2,
+  options: options,
+});
+
+new Chart(document.getElementById("chart3").getContext("2d"), {
+  type: "line",
+  data: data3,
+  options: options,
+});
+
+new Chart(document.getElementById("chart4").getContext("2d"), {
+  type: "line",
+  data: data4,
+  options: options,
+});
+};
+  </script>
+</body>
+</html>

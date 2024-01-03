@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Line Charts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .numbers-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .number-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 0 10px;
+        }
+
+        .chart-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            margin: 20px;
+        }
+
+        .chart {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Line Charts</h1>
+    <div class="numbers-container">
+        <div class="number-box">Instant Buy Price: $100</div>
+        <div class="number-box">Instant Sell Price: $95</div>
+        <div class="number-box">Sell Offer Price: $98</div>
+        <div class="number-box">Buy Order Price: $102</div>
+    </div>
+    <div class="chart-container">
+        <div class="chart"><canvas id="chart1"></canvas></div>
+        <div class="chart"><canvas id="chart2"></canvas></div>
+        <div class="chart"><canvas id="chart3"></canvas></div>
+        <div class="chart"><canvas id="chart4"></canvas></div>
+    </div>
+    <script>
+        const data1 = {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Dataset 1 - Line 1',
+                data: [10, 20, 15, 25, 30],
+                borderColor: 'red',
+                fill: false
+            },
+            {
+                label: 'Dataset 1 - Line 2',
+                data: [5, 10, 8, 15, 20],
+                borderColor: 'green',
+                fill: false
+            }]
+        };
+
+        const data2 = {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Dataset 2 - Line 1',
+                data: [5, 15, 10, 30, 20],
+                borderColor: 'blue',
+                fill: false
+            },
+            {
+                label: 'Dataset 2 - Line 2',
+                data: [10, 8, 12, 18, 25],
+                borderColor: 'orange',
+                fill: false
+            }]
+        };
+
+        // Repeat the above data objects for data3 and data4
+
+        const options = {
+            plugins: {
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                interaction: {
+                    intersect: false,
+                }
+            },
+            scales: {
+                x: {
+                    display: true,
+                },
+                y: {
+                    display: true,
+                }
+            }
+        };
+
+        window.onload = function () {
+            new Chart(document.getElementById('chart1').getContext('2d'), {
+                type: 'line',
+                data: data1,
+                options: options
+            });
+
+            new Chart(document.getElementById('chart2').getContext('2d'), {
+                type: 'line',
+                data: data2,
+                options: options
+            });
+
+            // Create chart3 and chart4 using data3 and data4
+        };
+    </script>
+</body>
+</html>

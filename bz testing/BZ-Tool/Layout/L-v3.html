@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Styled Input</title>
+  <style>
+    /* Your provided CSS styles here */
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --background-size: unquote('min(100vw, 40em)');
+    }
+
+    html {
+      font-size: calc(100% + 0.5vw);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition-duration: 0.001s !important;
+      }
+    }
+
+    .container {
+      /* Your container styles here */
+    }
+
+    .input-group {
+      width: 100%;
+      max-width: 20em;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    .input-group__label {
+      /* Your label styles here */
+    }
+
+    .input-group__input {
+      color: #fff;
+      font-size: 1.25rem;
+      line-height: 1;
+      border-style: none;
+      outline: none;
+      /* Height calculation */
+      height: calc(1em + 1.6em + 0.5em);
+      width: 100%;
+      padding: 0.8em 1em;
+      border: 0.25em solid transparent;
+      background-image: linear-gradient(#000, #000),
+        linear-gradient(120deg, #f09 0%, #0ff 50%, #9f0 100%);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+      border-radius: 1.8em;
+      background-size: 200% 100%;
+      transition: background-position 0.8s ease-out;
+
+      &:hover {
+        background-position: 100% 0;
+      }
+
+      &:focus {
+        outline: 2px dashed #ad2b89;
+        outline-offset: 0.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="input-group">
+      <label class="input-group__label" for="myInput">My Label</label>
+      <input type="text" id="myInput" class="input-group__input" value="This is my input" />
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>V6</title>
+    <style class="main">
+      /* Additional styles for demo purposes */
+      html {
+        height: 100%;
+        color: black;
+        background-color: black;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background-color: black;
+      }
+    </style>
+    <style class="input">
+      input[type="number"] {
+        color: aqua;
+        font-size: 16px;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 50px; /* Rounded edges */
+        border: 1px solid aqua;
+        outline: none; /* Remove the default focus outline */
+        background-color: black; /* Set background color to black */
+        position: relative; /* Position the input field */
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: aqua; /* Change the border color on focus */
+      }
+
+      /* Styling for the placeholder label */
+      label[placeholder]:before {
+        content: attr(placeholder);
+        color: aqua;
+        transition: transform 0.3s ease-in-out, color 0.2s ease-in-out;
+        transform-origin: 15% 100%;
+        display: block;
+        margin-top: -36px;
+        margin-left: 15px;
+        font-size: 14px;
+        pointer-events: none; /* Allow clicking through the label */
+        z-index: 1; /* Place label behind the input */
+        position: absolute; /* Position the label */
+        background-color: black; /* Background color behind the placeholder */
+        padding: 0 6px; /* Add padding for the box-like effect */
+        border-radius: 50px; /* Rounded corners for the box-like effect */
+      }
+
+      /* Adjust the label's appearance on focus */
+      input:focus + label[placeholder]:before,
+      input:valid + label[placeholder]:before {
+        transform: scale(0.9) translateY(-21px);
+        color: orange;
+      }
+
+      /* Hide number input arrows */
+      .number-box::-webkit-inner-spin-button,
+      .number-box::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <input type="number" required class="number-box" />
+      <label placeholder="Input"></label>
+    </form>
+    <form>
+      <input type="number" required class="number-box" />
+      <label placeholder="Input"></label>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Page</title>
+    <style>
+      /* Styling for autocomplete results */
+      #results {
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      #results a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+      }
+
+      #results a:hover {
+        background-color: #f0f0f0;
+      }
+    </style>
+    <script>
+      // Function to load content based on the clicked item
+      async function loadContent(item) {
+        try {
+          var apiUrl = "https://api.hypixel.net/skyblock/bazaar"; // Replace this with the actual API URL
+          var response = await fetch(apiUrl);
+          var data = await response.json();
+
+          var content = ""; // Initialize content
+
+          // Check if the API response was successful
+          if (data.success) {
+            // Check if the API response has "products" property
+            if (data.products) {
+              var selectedItem = data.products[item];
+
+              // Check if the selected item exists
+              if (selectedItem) {
+                // Check if the selected item has "quick_status" property
+                if (selectedItem.quick_status) {
+                  var quickStatus = selectedItem.quick_status;
+                  content = JSON.stringify(quickStatus, null, 2); // Display the quick_status information nicely
+                } else {
+                  content = "Quick status not available for this item.";
+                }
+              } else {
+                content = "Selected item not found.";
+              }
+            } else {
+              content = "Products data not available.";
+            }
+          } else {
+            content = "API request was not successful.";
+          }
+
+          // Update the destination page's content with the loaded data
+          var destinationElement = document.getElementById("destination");
+          destinationElement.innerHTML = content;
+
+          // Hide the item list after loading content
+          var itemListElement = document.getElementById("itemList");
+          itemListElement.style.display = "none";
+        } catch (error) {
+          console.error("An error occurred:", error);
+        }
+      }
+
+      // Example usage
+      //loadContent("IRON_INGOT"); // Replace with the item name you want to load
+    </script>
+  </head>
+  <body>
+    <h1>Search Names</h1>
+    <input type="text" id="searchInput" placeholder="Search..." />
+    <div id="results"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("searchInput");
+        const resultsDiv = document.getElementById("results");
+
+        searchInput.addEventListener("input", async () => {
+          const searchTerm = searchInput.value.toLowerCase();
+
+          // Construct the API URL
+          const apiUrl = "https://api.hypixel.net/skyblock/bazaar";
+
+          try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            resultsDiv.innerHTML = "";
+
+            if (!data.success) {
+              resultsDiv.innerHTML = "Error fetching data.";
+              return;
+            }
+
+            const products = data.products;
+
+            const filteredProducts = Object.keys(products).filter((productId) =>
+              products[productId].product_id.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredProducts.length === 0) {
+              resultsDiv.innerHTML = "No results found.";
+              return;
+            }
+
+            filteredProducts.forEach((productId) => {
+              const productName = products[productId].product_id;
+              const resultItem = document.createElement("div");
+              resultItem.innerHTML = `<div class="clickable-item" onclick="loadContent('${productId}')">${productName}</div>`;
+              resultsDiv.appendChild(resultItem);
+            });
+          } catch (error) {
+            console.error("Error fetching data:", error);
+          }
+        });
+      });
+    </script>
+
+    <div id="destination">
+      <!-- The content will be dynamically loaded here -->
+    </div>
+  </body>
+</html>

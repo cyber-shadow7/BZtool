@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Page</title>
+    <style>
+      /* Styling for autocomplete results */
+      #results {
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      #results a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+      }
+
+      #results a:hover {
+        background-color: #f0f0f0;
+      }
+    </style>
+    <script>
+      // Function to load content based on the clicked item
+      function loadContent(item) {
+        // Replace this with your actual data loading logic
+        // For demonstration purposes, we'll just set the content here
+        var content = "";
+
+        if (item === "iron") {
+          content = "Content for Item 1";
+        } else if (item === "item2") {
+          content = "Content for Item 2";
+        } else if (item === "item3") {
+          content = "Content for Item 3";
+        }
+
+        // Update the destination page's content with the loaded data
+        document.getElementById("destination").innerHTML = content;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Search Names</h1>
+    <input type="text" id="searchInput" placeholder="Search..." />
+    <div id="results"></div>
+    <script>
+      const data = [
+        { name: "Iron", url: "iron" },
+        { name: "Redstone", url: "Redstone.html" },
+        // Add more entries as needed
+      ];
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("searchInput");
+        const resultsDiv = document.getElementById("results");
+
+        searchInput.addEventListener("input", () => {
+          const searchTerm = searchInput.value.toLowerCase();
+          const filteredData = data.filter((item) =>
+            item.name.toLowerCase().includes(searchTerm)
+          );
+
+          resultsDiv.innerHTML = "";
+
+          if (filteredData.length === 0) {
+            resultsDiv.innerHTML = "No results found.";
+            return;
+          }
+
+          filteredData.forEach((item) => {
+            const resultItem = document.createElement("div");
+            //resultItem.innerHTML = `<a href="${item.url}">${item.name}</a>`;
+            resultItem.innerHTML = `<div class="clickable-item" onclick="loadContent('${item.url}')">${item.name}</div>`;
+
+            resultsDiv.appendChild(resultItem);
+          });
+        });
+      });
+    </script>
+    <div id="destination">
+      <!-- The content will be dynamically loaded here -->
+    </div>
+  </body>
+</html>
