@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Your Website</title>
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <style>
     body {
@@ -66,7 +65,12 @@
       </div>
       <div class="right-section">
         <form class="search-bar" action="/search" method="GET">
-          <input type="text" placeholder="Search..." name="search" />
+          <input
+            type="text"
+            placeholder="Search..."
+            name="search"
+            autocomplete="off"
+          />
           <button type="submit">Search</button>
         </form>
       </div>
