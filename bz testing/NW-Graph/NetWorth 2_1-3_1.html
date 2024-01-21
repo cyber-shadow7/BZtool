@@ -2,11 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta property="og:title" content="Net Worth Chart" />
-    <meta
-      property="og:description"
-      content="Custom description for the chart."
-    />
     <meta
       property="og:image"
       content="https://cdn.discordapp.com/attachments/1189441508538073168/1198739254667395273/image.png?ex=65bfffed&is=65ad8aed&hm=07ddeed59bae2654b23a6b1ca32bba9452e34bb6180374f784a7be07877c76cc&"
@@ -58,67 +53,34 @@
         const ctx = document.getElementById("netWorthChart").getContext("2d");
 
         const netWorthData = {
-          apollo800813: [
-            321300374, 307648495, 342430507, 355924278, 372533623, 363020357,
-            360878894, 365019551, 393556734, 452402444,
-          ],
-          thecooliguy791: [
-            1483624, 1028020, 882939, 1025384, 1014322, 1069963, 944709, 973402,
-            788129, 1071496,
-          ],
-          Im_Yuno: [
-            4250608513, 4509230500, 4359635916, 4383757995, 4365878203,
-            5440159994, 5412491585, 5483998420, 5646426961, 5904005665,
-          ],
-          Im_Gwimace: [
-            506073516, 315939582, 319002172, 338418178, 335613018, 347915639,
-            351633680, 355872132, 353952821, 353044930,
-          ],
-          aura7: [
-            3029459087, 3147400675, 3513437068, 3622651737, 3702994487,
-            3631900261, 3625421893, 3716700960, 3710668569, 3730841507,
-          ],
-          Ramy08: [
-            382282642, 382118434, 395156036, 414522624, 413020009, 395353264,
-            394726508, 412012980, 389118591, 399454101,
-          ],
-          EchoFighter310: [
-            715455296, 741353101, 767880957, 797281179, 794034044, 785556461,
-            785703488, 788589228, 812772498, 811318932,
-          ],
-          Sidosaurus_Rex: [
-            553946170, 556990994, 550547511, 569986156, 563558099, 564671117,
-            567048729, 568808399, 583699849, 581412910,
-          ],
-          DDraco_Toast: [
-            568780988, 460694294, 474114691, 482892238, 483819703, 496658361,
-            488138035, 506203663, 508165276, 502485907,
-          ],
-          difficultentrpot: [
-            2422003321, 2459937958, 2477306563, 2628831060, 2679624008,
-            2702209034, 2723610070, 2726656977, 2709962462, 2690571206,
-          ],
-          FARPlNHA: [
-            341147813, 341147813, 341147813, 341147813, 359103747, 320138687,
-            309708454, 322607403, 312732640, 314533655,
-          ],
-          KashieAz8: [
-            2972330183, 2972330183, 2972330183, 2972330183, 2972330183,
-            2972330183, 2972330183, 2972330183, 2912694066, 3660731135,
-          ],
-          PepsiNotSexy: [
-            152868598, 152868598, 152868598, 152868598, 152868598, 152868598,
-            152868598, 152868598, 197671295, 146946953,
-          ],
-          scteras: [
-            1285197424, 1285197424, 1285197424, 1285197424, 1285197424,
-            1285197424, 1285197424, 1285197424, 1328537685, 1398185895,
-          ],
-          MagiclessHippo: [
-            6705101056, 6705101056, 6705101056, 6705101056, 6705101056,
-            6705101056, 6705101056, 6705101056, 6705101056, 6207099627,
-          ],
+          apollo800813: [0],
+          thecooliguy791: [0],
+          Im_Yuno: [0],
+          Im_Gwimace: [0],
+          aura7: [0],
+          Ramy08: [0],
+          Sidosaurus_Rex: [0],
+          DDraco_Toast: [0],
+          difficultentrpot: [0],
+          FARPlNHA: [0],
+          KashieAz8: [0],
+          PepsiNotSexy: [0],
+          scteras: [0],
+          MagiclessHippo: [0],
         };
+
+        // Interpolate data points for all users
+        for (const user in netWorthData) {
+          console.log(`Before interpolation for ${user}:`, netWorthData[user]);
+
+          // Convert string numbers to actual numbers
+          netWorthData[user] = netWorthData[user].map((value) =>
+            typeof value === "string" ? parseFloat(value) : value
+          );
+
+          interpolateNullValues(netWorthData[user]);
+          console.log(`After interpolation for ${user}:`, netWorthData[user]);
+        }
 
         const labels = Object.keys(netWorthData);
         const dataPoints = Object.values(netWorthData);
@@ -150,17 +112,37 @@
         });
 
         const customLabels = [
-          "12/12",
-          "12/18",
-          "12/21",
-          "12/24",
-          "12/26",
-          "12/31",
-          "1/2",
-          "1/5",
-          "1/8",
-          "1/11",
-        ]; // Replace with your custom labels
+          "2/1",
+          "2/2",
+          "2/3",
+          "2/4",
+          "2/5",
+          "2/6",
+          "2/7",
+          "2/8",
+          "2/9",
+          "2/10",
+          "2/11",
+          "2/12",
+          "2/13",
+          "2/14",
+          "2/15",
+          "2/16",
+          "2/17",
+          "2/18",
+          "2/19",
+          "2/20",
+          "2/21",
+          "2/22",
+          "2/23",
+          "2/24",
+          "2/25",
+          "2/26",
+          "2/27",
+          "2/28",
+          "2/29",
+        ];
+        // Replace with your custom labels
 
         new Chart(ctx, {
           type: "line",
@@ -226,6 +208,33 @@
             differences.push(data[key] - initialValue);
           }
           return differences;
+        }
+
+        // Function to interpolate data points marked with null
+        function interpolateNullValues(data) {
+          for (let i = 0; i < data.length; i++) {
+            if (data[i] === null) {
+              let startIndex = i - 1;
+              let endIndex = i + 1;
+
+              // Find the nearest valid data points
+              while (data[startIndex] === null) {
+                startIndex--;
+              }
+              while (data[endIndex] === null) {
+                endIndex++;
+              }
+
+              // Linear interpolation formula
+              const interpolatedValue =
+                data[startIndex] +
+                ((i - startIndex) / (endIndex - startIndex)) *
+                  (data[endIndex] - data[startIndex]);
+
+              // Replace the null with the interpolated value
+              data[i] = interpolatedValue;
+            }
+          }
         }
       });
     </script>
