@@ -123,6 +123,72 @@
         margin: 0;
       }
     </style>
+    <style class="slider tg">
+      .toggle-container {
+        text-align: right;
+        /* padding: 10px; */
+        display: flex;
+        align-items: center;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        border-radius: 17px; /* Round the edges of the switch */
+      }
+
+      .switch input {
+        display: none;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black; /* Dark background color for the slider */
+        border: 2px solid #00aaff;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 17px; /* Round the edges of the slider */
+      }
+
+      .toggle-label {
+        margin-right: 10px; /* Adjust the margin as needed */
+        font-size: 18px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 50%; /* Round the edges of the thumb */
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3; /* Accent color for checked state */
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+    </style>
   </head>
 
   <body>
@@ -133,7 +199,7 @@
 
       <!-- Popover Menu -->
       <div class="menu-content" id="menuContent">
-        <div class="menu-item">Item 2</div>
+        <div class="menu-item">search bar here</div>
         <form>
           <input
             type="text"
@@ -141,8 +207,24 @@
             class="number-box"
             oninput="formatNumber(this)"
           />
-          <label placeholder="Quantity Item-1"></label>
+          <label placeholder="Item Quantity"></label>
         </form>
+        <form>
+          <input
+            type="text"
+            required
+            class="number-box"
+            oninput="formatNumber(this)"
+          />
+          <label placeholder="Unit Price"></label>
+        </form>
+        <div class="toggle-container">
+          <span class="toggle-label">manual/auto</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
       </div>
     </div>
 
