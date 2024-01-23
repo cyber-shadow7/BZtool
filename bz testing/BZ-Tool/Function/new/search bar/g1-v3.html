@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .dark-theme {
+        background-color: #1a1a1a;
+        color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #555;
+        border-radius: 4px;
+        background-color: #333;
+        color: #fff;
+      }
+    </style>
+    <title>Dark Theme Website</title>
+  </head>
+  <body>
+    <div class="dark-theme">
+      <label for="autocomplete">Autocomplete with Default Focus:</label>
+      <input type="text" id="autocomplete" list="autocomplete-list" />
+      <datalist id="autocomplete-list">
+        <option value="123"></option>
+        <option value="321"></option>
+        <option value="222"></option>
+      </datalist>
+    </div>
+
+    <script>
+      // Focus on the input field by default
+      document.getElementById("autocomplete").focus();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .dark-theme {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    datalist {
+      display: none; /* Hide datalist by default */
+    }
+  </style>
+  <title>Dark Theme Website</title>
+</head>
+<body>
+  <div class="dark-theme">
+    <label for="combobox">Combobox:</label>
+    <select id="combobox">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+
+    <label for="autocomplete">Autocomplete:</label>
+    <input type="text" id="autocomplete" list="autocomplete-list">
+    <datalist id="autocomplete-list">
+      <option value="Suggestion 1">
+      <option value="Suggestion 2">
+      <option value="Suggestion 3">
+    </datalist>
+
+    <label for="command-palette">Command Palette:</label>
+    <input type="text" id="command-palette" list="command-list">
+    <datalist id="command-list">
+      <option value="Command 1">
+      <option value="Command 2">
+      <option value="Command 3">
+    </datalist>
+  </div>
+
+  <script>
+    // Autocomplete functionality
+    const autocompleteInput = document.getElementById('autocomplete');
+    const autocompleteList = document.getElementById('autocomplete-list');
+
+    autocompleteInput.addEventListener('input', () => {
+      const inputValue = autocompleteInput.value.toLowerCase();
+      const options = Array.from(autocompleteList.options);
+
+      options.forEach((option) => {
+        const optionValue = option.value.toLowerCase();
+        if (optionValue.includes(inputValue)) {
+          option.style.display = 'block';
+        } else {
+          option.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

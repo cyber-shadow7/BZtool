@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popover Menu</title>
+
+    <!-- Add any additional styles or scripts here -->
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* Styles for the frame */
+      .frame {
+        display: inline-block;
+        border: 2px solid #333;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      /* Styles for the button */
+      .button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        cursor: pointer;
+      }
+
+      /* Styles for the menu */
+      .menu-content {
+        display: none;
+        position: absolute;
+        color: aqua;
+        background-color: black;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        padding: 8px;
+        z-index: 1;
+      }
+
+      .menu-content.show {
+        display: block;
+      }
+
+      .menu-item {
+        padding: 8px;
+        cursor: pointer;
+      }
+
+      .menu-item:hover {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Frame for the button and popover -->
+    <div class="frame">
+      <!-- Button for triggering the menu -->
+      <button class="button" onclick="toggleMenu()">Open</button>
+
+      <!-- Popover Menu -->
+      <div class="menu-content" id="menuContent">
+        <div class="menu-item">Item 1</div>
+        <div class="menu-item">Item 2</div>
+        <div class="menu-item">Item 3</div>
+      </div>
+    </div>
+
+    <!-- Your additional content goes here -->
+
+    <script>
+      function toggleMenu() {
+        const menuContent = document.getElementById("menuContent");
+        menuContent.classList.toggle("show");
+      }
+    </script>
+  </body>
+</html>

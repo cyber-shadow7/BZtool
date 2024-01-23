@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Draw Button</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #drawContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <button id="drawButton">Open Draw</button>
+  <div id="drawContainer" class="hidden">
+    <!-- Your draw content goes here -->
+    <!-- Add a close button or any other elements you need in the draw -->
+  </div>
+
+  <script>
+    document.getElementById("drawButton").addEventListener("click", function() {
+      console.log("Button Clicked!");
+      document.getElementById("drawContainer").classList.toggle("hidden");
+    });
+  </script>
+</body>
+</html>
