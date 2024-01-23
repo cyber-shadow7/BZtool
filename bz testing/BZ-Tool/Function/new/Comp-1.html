@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popover Menu</title>
+
+    <!-- Add any additional styles or scripts here -->
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        background-color: black;
+        color: #00aaff;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* Styles for the frame */
+      /* .frame {
+        display: inline-block;
+        border: 2px solid #333;
+        border-radius: 4px;
+        overflow: hidden;
+      } */
+
+      /* Styles for the button */
+      .button {
+        background-color: black;
+        border-color: #00aaff;
+        color: #00aaff;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        cursor: pointer;
+        user-select: none; /* Add this line to make text unselectable */
+      }
+
+      /* Styles for the menu */
+      .menu-content {
+        display: none;
+        position: absolute;
+        color: #00aaff;
+        border: 2px solid #00aaff; /* Add this line for the aqua border */
+        background-color: black;
+        border-radius: 0 16px 16px 16px; /* Specify individual values for each corner */
+        padding: 10px;
+        z-index: 1;
+      }
+
+      .menu-content.show {
+        display: block;
+      }
+
+      .menu-item {
+        padding: 8px;
+        cursor: pointer;
+        margin-bottom: 10px; /* Add this line for space between lines */
+        /* border: 20px;
+        border-color: aqua; */
+      }
+
+      .menu-item:hover {
+        background-color: rgba(0, 255, 255, 0.2);
+        /* border: 20px;
+        border-color: aqua; */
+      }
+    </style>
+    <style class="number input">
+      .form-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* Adjust the space between forms */
+      }
+      input[class="number-box"] {
+        color: #00aaff;
+        font-size: 16px;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 50px; /* Rounded edges */
+        border: 2px solid #00aaff;
+        outline: none; /* Remove the default focus outline */
+        background-color: black; /* Set background color to black */
+        position: relative; /* Position the input field */
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: #00aaff; /* Change the border color on focus */
+      }
+
+      /* Styling for the placeholder label */
+      label[placeholder]:before {
+        content: attr(placeholder);
+        color: #00aaff;
+        transition: transform 0.3s ease-in-out, color 0.2s ease-in-out;
+        transform-origin: 15% 100%;
+        display: block;
+        margin-top: -36px;
+        margin-left: 15px;
+        font-size: 14px;
+        pointer-events: none; /* Allow clicking through the label */
+        z-index: 1; /* Place label behind the input */
+        position: absolute; /* Position the label */
+        background-color: black; /* Background color behind the placeholder */
+        padding: 0 6px; /* Add padding for the box-like effect */
+        border-radius: 50px; /* Rounded corners for the box-like effect */
+      }
+
+      /* Adjust the label's appearance on focus */
+      input:focus + label[placeholder]:before,
+      input:valid + label[placeholder]:before {
+        transform: scale(0.9) translateY(-21px);
+        color: orange;
+      }
+
+      /* Hide number input arrows */
+      .number-box::-webkit-inner-spin-button,
+      .number-box::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Frame for the button and popover -->
+    <div class="frame">
+      <!-- Button for triggering the menu -->
+      <button class="button" onclick="toggleMenu()">Open</button>
+
+      <!-- Popover Menu -->
+      <div class="menu-content" id="menuContent">
+        <div class="menu-item">Item 2</div>
+        <form>
+          <input
+            type="text"
+            required
+            class="number-box"
+            oninput="formatNumber(this)"
+          />
+          <label placeholder="Quantity Item-1"></label>
+        </form>
+      </div>
+    </div>
+
+    <!-- Your additional content goes here -->
+
+    <script class="Popover Menu">
+      function toggleMenu() {
+        const menuContent = document.getElementById("menuContent");
+        menuContent.classList.toggle("show");
+      }
+    </script>
+    <script class="number input">
+      function formatNumber(input) {
+        let value = input.value;
+
+        // Check for 'm' or 'k' and add zeros accordingly
+        if (value.endsWith("m")) {
+          value = value.slice(0, -1) + "000000";
+        } else if (value.endsWith("k")) {
+          value = value.slice(0, -1) + "000";
+        }
+
+        // Format with commas without removing non-numeric characters
+        input.value = value.replace(/\B(?=(\d{3})+(?!\d|m|k))/g, ",");
+      }
+    </script>
+  </body>
+</html>
