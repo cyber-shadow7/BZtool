@@ -240,6 +240,9 @@
       function formatNumber(input) {
         let value = input.value;
 
+        // Remove any non-numeric characters except for 'm' and 'k'
+        value = value.replace(/[^0-9mk]/gi, "");
+
         // Check for 'm' or 'k' and add zeros accordingly
         if (value.endsWith("m")) {
           value = value.slice(0, -1) + "000000";
@@ -247,7 +250,7 @@
           value = value.slice(0, -1) + "000";
         }
 
-        // Format with commas without removing non-numeric characters
+        // Format with commas
         input.value = value.replace(/\B(?=(\d{3})+(?!\d|m|k))/g, ",");
       }
     </script>
