@@ -160,7 +160,6 @@
       .toggle-label {
         margin-right: 10px; /* Adjust the margin as needed */
         font-size: 18px;
-        user-select: none;
       }
 
       .slider:before {
@@ -190,35 +189,6 @@
         transform: translateX(26px);
       }
     </style>
-    <style class="search-bar">
-      /* find and fix alinment and width */
-      .search-container {
-        position: relative;
-        /* padding: 8px; */
-        /* margin-bottom: 5px; */
-        gap: 20px;
-        user-select: none;
-      }
-
-      input.search-input {
-        color: #00aaff;
-        font-size: 16px;
-        padding: 8px;
-        border-radius: 50px;
-        border: 2px solid #00aaff;
-        outline: none;
-        background-color: black;
-        position: relative;
-        /* width: 200px; */
-        margin-bottom: 10px; /* Add margin-bottom for space between rows */
-        user-select: none;
-      }
-
-      input.search-input:focus {
-        border-color: #00aaff;
-        user-select: none;
-      }
-    </style>
   </head>
 
   <body>
@@ -229,15 +199,7 @@
 
       <!-- Popover Menu -->
       <div class="menu-content" id="menuContent">
-        <div class="search-container">
-          <input
-            type="text"
-            class="search-input"
-            placeholder="Search Item Data-Base..."
-            id="searchInput"
-          />
-          <div class="search-dropdown" id="searchDropdown"></div>
-        </div>
+        <div class="menu-item">search bar here</div>
         <form>
           <input
             type="text"
@@ -291,71 +253,6 @@
         // Format with commas
         input.value = value.replace(/\B(?=(\d{3})+(?!\d|m|k))/g, ",");
       }
-    </script>
-    <script class="search-bar">
-      const searchInput = document.getElementById("searchInput");
-      const searchDropdown = document.getElementById("searchDropdown");
-
-      const frameworks = [
-        "Next.js",
-        "SvelteKit",
-        "Nuxt.js",
-        "Remix",
-        "Astro",
-        "Vue.js",
-        "React",
-        "Angular",
-        "Express.js",
-        "Django",
-        "Ruby on Rails",
-        "Flask",
-        "Spring Boot",
-        "Laravel",
-        "ASP.NET",
-        "Meteor",
-        "Ember.js",
-        "Symfony",
-        "Play Framework",
-        "AdonisJS",
-      ];
-
-      // Function to update the dropdown with best 5 matching suggestions
-      function updateDropdown() {
-        const inputValue = searchInput.value.toLowerCase();
-
-        const matchingFrameworks = frameworks
-          .filter((framework) => framework.toLowerCase().includes(inputValue))
-          .slice(0, 5); // Display the best 5 matching suggestions
-
-        // Populate the dropdown
-        searchDropdown.innerHTML = "";
-        matchingFrameworks.forEach((framework) => {
-          const item = document.createElement("div");
-          item.className = "search-dropdown-item";
-          item.textContent = framework;
-          item.addEventListener("click", () => {
-            searchInput.value = framework;
-            searchDropdown.style.display = "none";
-          });
-          searchDropdown.appendChild(item);
-        });
-
-        // Show/hide the dropdown based on matching results
-        searchDropdown.style.display =
-          matchingFrameworks.length > 0 ? "block" : "none";
-      }
-
-      // Event listeners
-      searchInput.addEventListener("input", updateDropdown);
-      searchInput.addEventListener("focus", updateDropdown);
-      document.addEventListener("click", (event) => {
-        if (
-          !searchInput.contains(event.target) &&
-          !searchDropdown.contains(event.target)
-        ) {
-          searchDropdown.style.display = "none";
-        }
-      });
     </script>
   </body>
 </html>

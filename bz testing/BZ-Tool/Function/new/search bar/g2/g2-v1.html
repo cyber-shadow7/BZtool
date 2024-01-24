@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Add your own styling as needed */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .search-container {
+      position: relative;
+      width: 200px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .search-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      background-color: #fff;
+      z-index: 1;
+    }
+
+    .search-dropdown-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+  </style>
+  <title>Custom Search Bar</title>
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search framework..." id="searchInput">
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const searchDropdown = document.getElementById("searchDropdown");
+    
+    const frameworks = [
+      "Next.js",
+      "SvelteKit",
+      "Nuxt.js",
+      "Remix",
+      "Astro"
+    ];
+
+    // Function to update the dropdown with matching suggestions
+    function updateDropdown() {
+      const inputValue = searchInput.value.toLowerCase();
+      const matchingFrameworks = frameworks.filter(framework =>
+        framework.toLowerCase().includes(inputValue)
+      );
+
+      // Populate the dropdown
+      searchDropdown.innerHTML = "";
+      matchingFrameworks.forEach(framework => {
+        const item = document.createElement("div");
+        item.className = "search-dropdown-item";
+        item.textContent = framework;
+        item.addEventListener("click", () => {
+          searchInput.value = framework;
+          searchDropdown.style.display = "none";
+        });
+        searchDropdown.appendChild(item);
+      });
+
+      // Show/hide the dropdown based on matching results
+      searchDropdown.style.display = matchingFrameworks.length > 0 ? "block" : "none";
+    }
+
+    // Event listeners
+    searchInput.addEventListener("input", updateDropdown);
+    document.addEventListener("click", event => {
+      if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
+        searchDropdown.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

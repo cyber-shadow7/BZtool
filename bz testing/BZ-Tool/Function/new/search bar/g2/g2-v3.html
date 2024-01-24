@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Add your own styling as needed */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .search-container {
+      position: relative;
+      width: 200px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .search-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      background-color: #fff;
+      z-index: 1;
+    }
+
+    .search-dropdown-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    .selected {
+      background-color: #f0f0f0;
+    }
+  </style>
+  <title>Custom Search Bar</title>
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="Search framework..." id="searchInput">
+    <div class="search-dropdown" id="searchDropdown"></div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const searchDropdown = document.getElementById("searchDropdown");
+    
+    const frameworks = [
+      "Next.js",
+      "SvelteKit",
+      "Nuxt.js",
+      "Remix",
+      "Astro"
+    ];
+
+    let selectedIndex = -1;
+
+    // Function to update the dropdown with matching suggestions
+    function updateDropdown() {
+      const inputValue = searchInput.value.toLowerCase();
+      const matchingFrameworks = frameworks.filter(framework =>
+        framework.toLowerCase().includes(inputValue)
+      );
+
+      // Populate the dropdown
+      searchDropdown.innerHTML = "";
+      matchingFrameworks.forEach((framework, index) => {
+        const item = document.createElement("div");
+        item.className = "search-dropdown-item";
+        item.textContent = framework;
+        item.addEventListener("click", () => {
+          selectOption(index);
+        });
+        searchDropdown.appendChild(item);
+      });
+
+      // Show/hide the dropdown based on matching results
+      searchDropdown.style.display = matchingFrameworks.length > 0 ? "block" : "none";
+    }
+
+    // Function to handle keyboard navigation
+    function handleKeyPress(event) {
+      const dropdownItems = searchDropdown.getElementsByClassName("search-dropdown-item");
+
+      if (event.key === "ArrowUp" && selectedIndex > 0) {
+        selectedIndex--;
+      } else if (event.key === "ArrowDown" && selectedIndex < dropdownItems.length - 1) {
+        selectedIndex++;
+      }
+
+      // Update the selected class
+      for (let i = 0; i < dropdownItems.length; i++) {
+        dropdownItems[i].classList.remove("selected");
+      }
+      if (selectedIndex >= 0) {
+        dropdownItems[selectedIndex].classList.add("selected");
+      }
+
+      if (event.key === "Enter" && selectedIndex >= 0) {
+        selectOption(selectedIndex);
+      }
+    }
+
+    // Function to select an option
+    function selectOption(index) {
+      searchInput.value = frameworks[index];
+      searchDropdown.style.display = "none";
+      selectedIndex = -1;
+    }
+
+    // Event listeners
+    searchInput.addEventListener("input", updateDropdown);
+    searchInput.addEventListener("focus", updateDropdown);
+    document.addEventListener("click", event => {
+      if (!searchInput.contains(event.target) && !searchDropdown.contains(event.target)) {
+        searchDropdown.style.display = "none";
+        selectedIndex = -1;
+      }
+    });
+    document.addEventListener("keydown", handleKeyPress);
+  </script>
+</body>
+</html>
