@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style class="search-bar">
+      body {
+        background-color: black;
+        color: aqua;
+      }
+      .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; /* Align items vertically */
+        height: 100vh; /* Set height to 100% of the viewport height */
+        margin: 0; /* Remove default margin */
+        user-select: none;
+      }
+
+      input.search-input {
+        color: #00aaff;
+        font-size: 16px;
+        padding: 8px;
+        border-radius: 50px;
+        border: 2px solid #00aaff;
+        outline: none;
+        background-color: black;
+        position: relative;
+        /* width: 200px; */
+        margin-bottom: 10px; /* Add margin-bottom for space between rows */
+        user-select: none;
+      }
+
+      input.search-input:focus {
+        border-color: #00aaff;
+        user-select: none;
+      }
+    </style>
+
+    <title>Custom Search Bar</title>
+  </head>
+  <body>
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search framework..."
+        id="searchInput"
+      />
+      <div class="search-dropdown" id="searchDropdown"></div>
+    </div>
+    <script class="search-bar">
+      const searchInput = document.getElementById("searchInput");
+      const searchDropdown = document.getElementById("searchDropdown");
+
+      // Define API configuration
+      const apiEndpoint = "YOUR_API_ENDPOINT"; // Replace with your API endpoint
+      const itemNamePath = "items.name"; // Replace with the actual path to item names
+      const pricePath = "items.price"; // Replace with the actual path to prices
+      const storageKey = "apiData"; // Key for local storage
+
+      // Function to fetch data from the API based on user input
+      async function fetchDataFromAPI(query) {
+        try {
+          const response = await fetch(`${apiEndpoint}?query=${query}`);
+          const data = await response.json();
+
+          // Save data and timestamp to local storage
+          const timestamp = new Date().getTime();
+          const apiData = { data, timestamp };
+          localStorage.setItem(storageKey, JSON.stringify(apiData));
+
+          return data;
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          return [];
+        }
+      }
+
+      // Function to get data from local storage
+      function getStoredData() {
+        const storedData = localStorage.getItem(storageKey);
+        return storedData ? JSON.parse(storedData) : null;
+      }
+
+      // Function to check if stored data is still valid (less than 15 minutes old)
+      function isDataValid(timestamp) {
+        const currentTime = new Date().getTime();
+        return currentTime - timestamp < 15 * 60 * 1000; // 15 minutes in milliseconds
+      }
+
+      // Function to update the dropdown with API data
+      async function updateDropdown() {
+        const inputValue = searchInput.value.toLowerCase();
+
+        if (inputValue.trim() === "") {
+          searchDropdown.style.display = "none";
+          return;
+        }
+
+        const storedData = getStoredData();
+
+        // Check if stored data is still valid
+        if (storedData && isDataValid(storedData.timestamp)) {
+          const itemNames = getItemNames(storedData.data);
+          const prices = getPrices(storedData.data);
+
+          // Display the best 5 matching suggestions from stored data
+          const matchingFrameworks = itemNames.slice(0, 5);
+
+          // Populate the dropdown with item names and prices
+          searchDropdown.innerHTML = "";
+          matchingFrameworks.forEach((framework, index) => {
+            const item = document.createElement("div");
+            item.className = "search-dropdown-item";
+            item.textContent = `${framework} - ${prices[index]}`;
+            item.addEventListener("click", () => {
+              searchInput.value = framework;
+              searchDropdown.style.display = "none";
+            });
+            searchDropdown.appendChild(item);
+          });
+
+          // Show/hide the dropdown based on matching results
+          searchDropdown.style.display =
+            matchingFrameworks.length > 0 ? "block" : "none";
+        } else {
+          // If stored data is not valid or doesn't exist, make a new API call
+          const apiData = await fetchDataFromAPI(inputValue);
+          const itemNames = getItemNames(apiData);
+          const prices = getPrices(apiData);
+
+          // Display the best 5 matching suggestions from API
+          const matchingFrameworks = itemNames.slice(0, 5);
+
+          // Populate the dropdown with item names and prices
+          searchDropdown.innerHTML = "";
+          matchingFrameworks.forEach((framework, index) => {
+            const item = document.createElement("div");
+            item.className = "search-dropdown-item";
+            item.textContent = `${framework} - ${prices[index]}`;
+            item.addEventListener("click", () => {
+              searchInput.value = framework;
+              searchDropdown.style.display = "none";
+            });
+            searchDropdown.appendChild(item);
+          });
+
+          // Show/hide the dropdown based on matching results
+          searchDropdown.style.display =
+            matchingFrameworks.length > 0 ? "block" : "none";
+        }
+      }
+
+      // Helper function to extract item names from API data
+      function getItemNames(apiData) {
+        return apiData[itemNamePath] || [];
+      }
+
+      // Helper function to extract prices from API data
+      function getPrices(apiData) {
+        return apiData[pricePath] || [];
+      }
+
+      // Event listeners
+      searchInput.addEventListener("input", updateDropdown);
+      searchInput.addEventListener("focus", updateDropdown);
+      document.addEventListener("click", (event) => {
+        if (
+          !searchInput.contains(event.target) &&
+          !searchDropdown.contains(event.target)
+        ) {
+          searchDropdown.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
