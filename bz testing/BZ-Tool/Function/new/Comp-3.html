@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popover Menu</title>
+
+    <!-- Add any additional styles or scripts here -->
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        background-color: black;
+        color: #00aaff;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      /* Styles for the frame */
+      /* .frame {
+        display: inline-block;
+        border: 2px solid #333;
+        border-radius: 4px;
+        overflow: hidden;
+      } */
+
+      /* Styles for the button */
+      .button {
+        background-color: black;
+        border-color: #00aaff;
+        color: #00aaff;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        cursor: pointer;
+        user-select: none; /* Add this line to make text unselectable */
+      }
+
+      /* Styles for the menu */
+      .menu-content {
+        display: none;
+        position: absolute;
+        color: #00aaff;
+        border: 2px solid #00aaff; /* Add this line for the aqua border */
+        background-color: black;
+        border-radius: 0 16px 16px 16px; /* Specify individual values for each corner */
+        padding: 10px;
+        z-index: 1;
+      }
+
+      .menu-content.show {
+        display: block;
+      }
+
+      .menu-item {
+        padding: 8px;
+        cursor: pointer;
+        margin-bottom: 10px; /* Add this line for space between lines */
+        /* border: 20px;
+        border-color: aqua; */
+      }
+
+      .menu-item:hover {
+        background-color: rgba(0, 255, 255, 0.2);
+        /* border: 20px;
+        border-color: aqua; */
+      }
+    </style>
+    <style class="number input">
+      .form-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px; /* Adjust the space between forms */
+      }
+      input[class="number-box"] {
+        color: #00aaff;
+        font-size: 16px;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 50px; /* Rounded edges */
+        border: 2px solid #00aaff;
+        outline: none; /* Remove the default focus outline */
+        background-color: black; /* Set background color to black */
+        position: relative; /* Position the input field */
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: #00aaff; /* Change the border color on focus */
+      }
+
+      /* Styling for the placeholder label */
+      label[placeholder]:before {
+        content: attr(placeholder);
+        color: #00aaff;
+        transition: transform 0.3s ease-in-out, color 0.2s ease-in-out;
+        transform-origin: 15% 100%;
+        display: block;
+        margin-top: -36px;
+        margin-left: 15px;
+        font-size: 14px;
+        pointer-events: none; /* Allow clicking through the label */
+        z-index: 1; /* Place label behind the input */
+        position: absolute; /* Position the label */
+        background-color: black; /* Background color behind the placeholder */
+        padding: 0 6px; /* Add padding for the box-like effect */
+        border-radius: 50px; /* Rounded corners for the box-like effect */
+      }
+
+      /* Adjust the label's appearance on focus */
+      input:focus + label[placeholder]:before,
+      input:valid + label[placeholder]:before {
+        transform: scale(0.9) translateY(-21px);
+        color: orange;
+      }
+
+      /* Hide number input arrows */
+      .number-box::-webkit-inner-spin-button,
+      .number-box::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
+    <style class="slider tg">
+      .toggle-container {
+        text-align: right;
+        /* padding: 10px; */
+        display: flex;
+        align-items: center;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        border-radius: 17px; /* Round the edges of the switch */
+      }
+
+      .switch input {
+        display: none;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: black; /* Dark background color for the slider */
+        border: 2px solid #00aaff;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 17px; /* Round the edges of the slider */
+      }
+
+      .toggle-label {
+        margin-right: 10px; /* Adjust the margin as needed */
+        font-size: 18px;
+        user-select: none;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 2px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 50%; /* Round the edges of the thumb */
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3; /* Accent color for checked state */
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+    </style>
+    <style class="search-bar">
+      /* find and fix alinment and width */
+      .search-container {
+        position: relative;
+        /* padding: 8px; */
+        /* margin-bottom: 5px; */
+        gap: 20px;
+        user-select: none;
+      }
+
+      input.search-input {
+        color: #00aaff;
+        font-size: 16px;
+        padding: 8px;
+        border-radius: 50px;
+        border: 2px solid #00aaff;
+        outline: none;
+        background-color: black;
+        position: relative;
+        /* width: 200px; */
+        margin-bottom: 10px; /* Add margin-bottom for space between rows */
+        user-select: none;
+      }
+
+      input.search-input:focus {
+        border-color: #00aaff;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Frame for the button and popover -->
+    <div class="frame">
+      <!-- Button for triggering the menu -->
+      <button class="button" onclick="toggleMenu()">Open</button>
+
+      <!-- Popover Menu -->
+      <div class="menu-content" id="menuContent">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search Item Data-Base..."
+            id="searchInput"
+          />
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <form>
+          <input
+            type="text"
+            required
+            class="number-box"
+            oninput="formatNumber(this)"
+          />
+          <label placeholder="Item Quantity"></label>
+        </form>
+        <form>
+          <input
+            type="text"
+            required
+            class="number-box"
+            oninput="formatNumber(this)"
+          />
+          <label placeholder="Unit Price"></label>
+        </form>
+        <div class="toggle-container">
+          <span class="toggle-label">manual/auto</span>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your additional content goes here -->
+
+    <script class="Popover Menu">
+      function toggleMenu() {
+        const menuContent = document.getElementById("menuContent");
+        menuContent.classList.toggle("show");
+      }
+    </script>
+    <script class="number input">
+      function formatNumber(input) {
+        let value = input.value;
+
+        // Remove any non-numeric characters except for 'm' and 'k'
+        value = value.replace(/[^0-9mk]/gi, "");
+
+        // Check for 'm' or 'k' and add zeros accordingly
+        if (value.endsWith("m")) {
+          value = value.slice(0, -1) + "000000";
+        } else if (value.endsWith("k")) {
+          value = value.slice(0, -1) + "000";
+        }
+
+        // Format with commas
+        input.value = value.replace(/\B(?=(\d{3})+(?!\d|m|k))/g, ",");
+      }
+    </script>
+    <script class="search-bar">
+      const apiEndpoint = "https://api.hypixel.net/skyblock/bazaar"; // Replace with your API endpoint
+      const searchInput = document.getElementById("searchInput");
+      const searchDropdown = document.getElementById("searchDropdown");
+
+      const storageKey = "apiData"; // Key for local storage
+      const cacheTimeKey = "apiCacheTime"; // Key for storing cache timestamp
+      const cacheDuration = 15 * 60 * 1000; // Cache duration in milliseconds (15 minutes)
+
+      // Function to fetch item names from the API based on user input
+      async function fetchItemNamesFromAPI(query) {
+        try {
+          // Replace spaces with underscores and underscores with spaces in the query
+          const sanitizedQuery = query.replace(/_/g, " ").replace(/ /g, "_");
+
+          // If cache is present and not expired, return cached data
+          const cachedTime =
+            parseInt(localStorage.getItem(cacheTimeKey), 10) || 0;
+          const currentTime = new Date().getTime();
+
+          if (currentTime - cachedTime < cacheDuration) {
+            const cachedData = JSON.parse(localStorage.getItem(storageKey));
+            console.log("Using cached data");
+            return getItemNames(cachedData, sanitizedQuery);
+          }
+
+          // Fetch data from the API
+          console.log("Fetching item names from API...");
+
+          const response = await fetch(
+            `${apiEndpoint}?query=${encodeURIComponent(sanitizedQuery)}`
+          );
+          const data = await response.json();
+
+          // Store the fetched data in the cache along with the current timestamp
+          localStorage.setItem(storageKey, JSON.stringify(data));
+          localStorage.setItem(cacheTimeKey, currentTime.toString());
+
+          console.log("Fetched new data from API:", data);
+          return getItemNames(data, sanitizedQuery);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          return [];
+        }
+      }
+
+      // Function to extract item names from API data based on user input
+      function getItemNames(apiData, query) {
+        const allItemNames = Object.keys(apiData.products || {});
+
+        // Filter item names based on the sanitized query (treating spaces and underscores as the same)
+        const filteredItemNames = allItemNames.filter((itemName) =>
+          itemName.toLowerCase().includes(query.toLowerCase())
+        );
+
+        return filteredItemNames;
+      }
+
+      // Function to update the dropdown with item names
+      async function updateDropdown() {
+        const inputValue = searchInput.value.toLowerCase();
+
+        console.log("Input Value:", inputValue);
+
+        if (inputValue.trim() === "") {
+          console.log("Input is empty");
+          searchDropdown.style.display = "none";
+          return;
+        }
+
+        console.log("Fetching item names from API...");
+
+        try {
+          const itemNames = await fetchItemNamesFromAPI(inputValue);
+          console.log("Fetched Item names:", itemNames);
+
+          // Clear previous content
+          searchDropdown.innerHTML = "";
+
+          // Populate the dropdown with item names
+          itemNames.slice(0, 5).forEach((itemName) => {
+            const item = document.createElement("div");
+            item.className = "search-dropdown-item";
+            item.textContent = itemName;
+            item.addEventListener("click", () => {
+              searchInput.value = itemName;
+              searchDropdown.style.display = "none";
+            });
+            searchDropdown.appendChild(item);
+          });
+
+          // Show/hide the dropdown based on matching results
+          searchDropdown.style.display =
+            itemNames.length > 0 ? "block" : "none";
+
+          // Log the updated dropdown HTML content
+          console.log("Dropdown Updated:", searchDropdown.innerHTML);
+        } catch (error) {
+          console.error("Error updating dropdown:", error);
+        }
+      }
+
+      // Event listener for input changes with debounce
+      searchInput.addEventListener(
+        "input",
+        debounce(() => updateDropdown(), 300)
+      ); // Adjust debounce time if needed
+      searchInput.addEventListener("focus", updateDropdown);
+      document.addEventListener("click", (event) => {
+        if (
+          !searchInput.contains(event.target) &&
+          !searchDropdown.contains(event.target)
+        ) {
+          console.log("Clicked outside, hiding dropdown");
+          searchDropdown.style.display = "none";
+        }
+      });
+
+      // Function to debounce input events
+      function debounce(func, delay) {
+        let timeoutId;
+        return function () {
+          const context = this;
+          const args = arguments;
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(() => {
+            func.apply(context, args);
+          }, delay);
+        };
+      }
+    </script>
+  </body>
+</html>
