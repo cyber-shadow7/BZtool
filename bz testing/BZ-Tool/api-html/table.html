@@ -17,6 +17,7 @@
           <th>Buy Volume</th>
           <th>Buy Moving Week</th>
           <th>Buy Orders</th>
+          <th>Buy Price</th> <!-- New column for Buy Price -->
         </tr>
       </thead>
       <tbody>
@@ -34,6 +35,7 @@
           for (const key in products) {
             if (products.hasOwnProperty(key)) {
               const product = products[key].quick_status;
+              const buyPrice = product.buyPrice ? parseFloat(product.buyPrice.toString().slice(0, -1)) : -1; // Set to -1 if buyPrice is not available
               const row = tableBody.insertRow();
               row.insertCell(0).textContent = product.productId;
               row.insertCell(1).textContent = product.sellPrice;
@@ -43,6 +45,7 @@
               row.insertCell(5).textContent = product.buyVolume;
               row.insertCell(6).textContent = product.buyMovingWeek;
               row.insertCell(7).textContent = product.buyOrders;
+              row.insertCell(8).textContent = buyPrice; // Insert Buy Price or -1 if not available
             }
           }
         })
