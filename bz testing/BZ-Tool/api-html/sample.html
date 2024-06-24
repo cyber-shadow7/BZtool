@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bazaar Data</title>
+  </head>
+  <body>
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Sell Price</th>
+          <th>Sell Volume</th>
+          <th>Sell Moving Week</th>
+          <th>Sell Orders</th>
+          <th>Buy Volume</th>
+          <th>Buy Moving Week</th>
+          <th>Buy Orders</th>
+          <th>Buy Price</th> <!-- New column for Buy Price -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be populated here by the script -->
+      </tbody>
+    </table>
+    <script>
+      fetch("https://api.hypixel.net/skyblock/bazaar")
+        .then((response) => response.json())
+        .then((data) => {
+          const products = data.products;
+          const tableBody = document
+            .getElementById("data-table")
+            .getElementsByTagName("tbody")[0];
+          const rowLimit = 100; // Set row limit
+          let rowCount = 0; // Initialize row count
+          for (const key in products) {
+            if (products.hasOwnProperty(key)) {
+              const product = products[key].quick_status;
+              const buyPrice = product.buyPrice ? parseFloat(product.buyPrice.toString().slice(0, -1)) : -1; // Set to -1 if buyPrice is not available
+              const row = tableBody.insertRow();
+              row.insertCell(0).textContent = product.productId;
+              row.insertCell(1).textContent = product.sellPrice;
+              row.insertCell(2).textContent = product.sellVolume;
+              row.insertCell(3).textContent = product.sellMovingWeek;
+              row.insertCell(4).textContent = product.sellOrders;
+              row.insertCell(5).textContent = product.buyVolume;
+              row.insertCell(6).textContent = product.buyMovingWeek;
+              row.insertCell(7).textContent = product.buyOrders;
+              row.insertCell(8).textContent = buyPrice; // Insert Buy Price or -1 if not available
+              rowCount++;
+              if (rowCount >= rowLimit) {
+                break; // Exit loop if row limit is reached
+              }
+            }
+          }
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+    </script>
+  </body>
+</html>
